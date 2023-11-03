@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Throwable;
 
 /**
@@ -30,12 +31,14 @@ abstract class RetryableCommand extends Command
 
     /**
      * @param int $retryIndex
+     *
      * @return int
      */
     abstract protected function retryTimeout(int $retryIndex): int;
 
     /**
      * @param int $retry
+     *
      * @return $this
      */
     protected function setMaxRetry(int $retry): self
@@ -48,6 +51,7 @@ abstract class RetryableCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
+     *
      * @return int
      */
     abstract protected function executeWithRetry(InputInterface $input, OutputInterface $output): int;
@@ -55,25 +59,33 @@ abstract class RetryableCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
+     *
      * @return int
+     *
+     * @throws Throwable
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $maxRetry = $this->maxRetry ?: $input->getOption('max-retry');
+        $io = new SymfonyStyle($input, $output);
+
+        $maxRetry = (int) $this->maxRetry ?: (int) $input->getOption('max-retry');
 
         while (true) {
             try {
                 return $this->executeWithRetry($input, $output);
             } catch (Throwable $exception) {
-                $this->currentRetry += 1;
+                $timeout = $this->retryTimeout($this->currentRetry);
 
                 if ($this->currentRetry === $maxRetry) {
+                    $io->error(sprintf('Command failed %s times, exiting.', $this->currentRetry));
                     throw $exception;
                 }
 
-                sleep($this->retryTimeout($this->currentRetry));
+                $io->warning(sprintf('Command failed at retry %s, retrying in %s seconds.', $this->currentRetry, $timeout));
 
-                $output->writeln('Retry ' . $this->currentRetry . '...');
+                $this->currentRetry += 1;
+
+                sleep($timeout);
             }
         }
     }
