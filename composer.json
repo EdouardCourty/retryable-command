@@ -1,6 +1,5 @@
 {
     "name": "edouardcourty/retryable-command",
-    "version": "1.0.0",
     "description": "Retry commands if they fail, based on Symfony Commands",
     "type": "library",
     "require": {
