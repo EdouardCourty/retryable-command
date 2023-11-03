@@ -3,16 +3,17 @@
     "description": "Retry commands if they fail, based on Symfony Commands",
     "type": "library",
     "require": {
-        "symfony/console": "6.3"
+        "symfony/console": "^5.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.4",
-        "phpstan/phpstan": "^1.10"
+        "phpstan/phpstan": "^1.10",
+        "friendsofphp/php-cs-fixer": "^3.37"
     },
     "license": "ISC",
     "autoload": {
         "psr-4": {
-            "EdouardCourty\\RetryableCommand\\": "src/"
+            "RetryableCommand\\": "src/"
         }
     },
     "autoload-dev": {
