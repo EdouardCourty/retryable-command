@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use EdouardCourty\RetryableCommand\RetryableCommand;
+use RetryableCommand\Command\RetryableCommand;
 use Exception;
 use PHPUnit\Framework\MockObject\Exception as PHPUnitException;
 use PHPUnit\Framework\TestCase;

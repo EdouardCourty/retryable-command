@@ -2,7 +2,7 @@
 
 namespace Tests\Command;
 
-use EdouardCourty\RetryableCommand\RetryableCommand;
+use RetryableCommand\Command\RetryableCommand;
 use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

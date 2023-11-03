@@ -1,6 +1,6 @@
 <?php
 
-namespace EdouardCourty\RetryableCommand;
+namespace RetryableCommand\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -8,6 +8,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
+/**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ */
 abstract class RetryableCommand extends Command
 {
     private const DEFAULT_RETRIES = 3;
