@@ -1,0 +1,11 @@
+version: '3.6'
+
+services:
+  php:
+    build: .
+    container_name: 'php_retryable-command'
+    user: 1000:1000
+    volumes:
+      - .:/srv/app
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
